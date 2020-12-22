@@ -71,9 +71,7 @@
                     Todo List
                 </div>
 
-                <div class="todo-app">
-                    Put it here
-                </div>
+                <example-component></example-component>
             </div>
         </div>
     </body>
