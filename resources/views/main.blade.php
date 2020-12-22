@@ -68,10 +68,8 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Todo List
+                    Default Page
                 </div>
-
-                <example-component></example-component>
             </div>
         </div>
     </body>
