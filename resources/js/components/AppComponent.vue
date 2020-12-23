@@ -14,6 +14,10 @@
 .todo-items {
     text-align: left;
 }
+
+.todo-items .done {
+    text-decoration: line-through;
+}
 </style>
 
 <template>
@@ -27,7 +31,7 @@
                     <li v-for="item in todos" :key="item.id">
                         <input type="checkbox" v-model="item.completed">
                         <span v-bind:class="{ done: item.completed }">{{ item.title }}</span>
-                        <span v-on:click="removeTodo"> X </span>
+                        <span v-on:click="removeTodo(item)" class="destroy"> X </span>
                     </li>
                 </ul>
             </div>
@@ -44,27 +48,27 @@ export default {
     data() {
         return {
             newTodo: "",
-            todos: [
-                // {
-                //     "id": 1,
-                //     "title": "Draw",
-                //     "completed": false
-                // }
-            ]
+            todos: []
         }
     },
     created() {
-        let sourceUrl = './' + this.itemsSource;
-        this.fetchData(this, sourceUrl)
+        this.fetchData(this, this.sourceUrl)
     },
-
-    computed: {},
+    computed: {
+        sourceUrl: function () {
+            return './' + this.itemsSource
+        }
+    },
     methods: {
         addTodo: function () {
             let val = this.newTodo;
             if (!val) {
                 return;
             }
+
+            this.addTodoRequest('./' + this.itemsSource, {
+                "title": val
+            });
 
             let num = this.todos[this.todos.length - 1] + 1;
             this.todos.push({
@@ -74,8 +78,38 @@ export default {
             });
             this.newTodo = "";
         },
-        removeTodo: function () {
-            alert('removed!');
+        removeTodo: function (todo) {
+            console.log(todo);
+            this.removeTodoRequest('./' + this.itemsSource + '/' + todo.id);
+            this.todos.splice(this.todos.indexOf(todo), 1);
+        },
+        addTodoRequest: function (path, data) {
+            let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            fetch(path, {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                    "X-CSRF-TOKEN": token
+                }
+            })
+                .then(response => response.json())
+                .then(json => console.log(json))
+                .catch(err => console.log(err));
+        },
+        removeTodoRequest: function (path) {
+            let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            fetch(path, {
+                method: "DELETE",
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                    "X-CSRF-TOKEN": token
+                }
+            })
+                .then(response => response.json())
+                .then(json => console.log(json))
+                .catch(err => console.log(err));
+
         },
         fetchData(ref, path) {
             fetch(path)

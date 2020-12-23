@@ -2,73 +2,78 @@
 
 namespace App\Http\Controllers;
 
+use App\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TaskController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse
+     * @return string
      */
     public function index() {
-        return response()->json([
-            [
-                'id' => 1,
-                'title' => 'Run',
-                'completed' => 1,
-            ],
-            [
-                'id' => 2,
-                'title' => 'Walking',
-                'completed' => 0,
-            ],
-            [
-                'id' => 5,
-                'title' => 'Jump',
-                'completed' => 1,
-            ]
-        ]);
+        return Task::all()->toJson();
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request) {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+        ]);
+
+        $task = new Task();
+        $task->title = $request->input('title');
+        $task->completed = false;
+        $task->save();
+
+        return response()->json(['status' => 'success']);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param Task $task
+     * @return Task
      */
-    public function show($id) {
-        return 'Task ' . $id;
+    public function show(Task $task) {
+        return $task;
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Task $task
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function update(Request $request, $id) {
-        //
+    public function update(Request $request, Task $task) {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|alpha_dash|max:255',
+            'completed' => 'required|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return response([
+                'errorMessage' => 'Invalid input',
+                'errors' => $validator->errors()->toArray()
+            ], 400);
+        }
+
+        $task->title = $request->input('title');
+        $task->completed = $request->input('completed');
+        $task->save();
+
+        return response()->json(['status' => 'success']);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param Task $task
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
-    public function destroy($id) {
-        return 'Task ' . $id . ' was deleted!';
+    public function destroy(Task $task) {
+        $task->delete();
+        return response()->json(['status' => 'success']);
     }
 }

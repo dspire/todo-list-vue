@@ -14,6 +14,7 @@
 <div class="footer">
 <p>For any query please contact</p>
 </div>
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <script type="text/javascript" src="/js/app.js"></script>
 
 </body>

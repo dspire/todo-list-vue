@@ -1942,6 +1942,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['itemsSource'],
   mounted: function mounted() {
@@ -1950,19 +1957,17 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       newTodo: "",
-      todos: [// {
-        //     "id": 1,
-        //     "title": "Draw",
-        //     "completed": false
-        // }
-      ]
+      todos: []
     };
   },
   created: function created() {
-    var sourceUrl = './' + this.itemsSource;
-    this.fetchData(this, sourceUrl);
+    this.fetchData(this, this.sourceUrl);
   },
-  computed: {},
+  computed: {
+    sourceUrl: function sourceUrl() {
+      return './' + this.itemsSource;
+    }
+  },
   methods: {
     addTodo: function addTodo() {
       var val = this.newTodo;
@@ -1971,6 +1976,9 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
+      this.addTodoRequest('./' + this.itemsSource, {
+        "title": val
+      });
       var num = this.todos[this.todos.length - 1] + 1;
       this.todos.push({
         id: num,
@@ -1979,8 +1987,43 @@ __webpack_require__.r(__webpack_exports__);
       });
       this.newTodo = "";
     },
-    removeTodo: function removeTodo() {
-      alert('removed!');
+    removeTodo: function removeTodo(todo) {
+      console.log(todo);
+      this.removeTodoRequest('./' + this.itemsSource + '/' + todo.id);
+      this.todos.splice(this.todos.indexOf(todo), 1);
+    },
+    addTodoRequest: function addTodoRequest(path, data) {
+      var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+      fetch(path, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          "X-CSRF-TOKEN": token
+        }
+      }).then(function (response) {
+        return response.json();
+      }).then(function (json) {
+        return console.log(json);
+      })["catch"](function (err) {
+        return console.log(err);
+      });
+    },
+    removeTodoRequest: function removeTodoRequest(path) {
+      var token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+      fetch(path, {
+        method: "DELETE",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          "X-CSRF-TOKEN": token
+        }
+      }).then(function (response) {
+        return response.json();
+      }).then(function (json) {
+        return console.log(json);
+      })["catch"](function (err) {
+        return console.log(err);
+      });
     },
     fetchData: function fetchData(ref, path) {
       fetch(path).then(function (response) {
@@ -6441,7 +6484,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.todo-items[data-v-cd268472] {\n    list-style-type: none;\n}\n.task-input[data-v-cd268472] {\n    margin-bottom: 12px;\n}\n.task-input.input[data-v-cd268472] {\n    width: 300px;\n}\n.todo-items[data-v-cd268472] {\n    text-align: left;\n}\n", ""]);
+exports.push([module.i, "\n.todo-items[data-v-cd268472] {\n    list-style-type: none;\n}\n.task-input[data-v-cd268472] {\n    margin-bottom: 12px;\n}\n.task-input input[data-v-cd268472] {\n    width: 300px;\n}\n.todo-items[data-v-cd268472] {\n    text-align: left;\n}\n.todo-items .done[data-v-cd268472] {\n    text-decoration: line-through;\n}\n", ""]);
 
 // exports
 
@@ -38321,7 +38364,18 @@ var render = function() {
                 _vm._v(_vm._s(item.title))
               ]),
               _vm._v(" "),
-              _c("span", { on: { click: _vm.removeTodo } }, [_vm._v(" X ")])
+              _c(
+                "span",
+                {
+                  staticClass: "destroy",
+                  on: {
+                    click: function($event) {
+                      return _vm.removeTodo(item)
+                    }
+                  }
+                },
+                [_vm._v(" X ")]
+              )
             ])
           }),
           0
