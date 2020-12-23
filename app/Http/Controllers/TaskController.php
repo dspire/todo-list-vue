@@ -11,8 +11,7 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse
      */
-    public function index()
-    {
+    public function index() {
         return response()->json([
             [
                 'id' => 1,
@@ -35,45 +34,41 @@ class TaskController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        return 'Task '.$id;
+    public function show($id) {
+        return 'Task ' . $id;
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id) {
         //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        return 'Task '.$id . ' was deleted!';
+    public function destroy($id) {
+        return 'Task ' . $id . ' was deleted!';
     }
 }

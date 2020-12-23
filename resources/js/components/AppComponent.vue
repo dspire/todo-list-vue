@@ -2,12 +2,15 @@
 .todo-items {
     list-style-type: none;
 }
+
 .task-input {
     margin-bottom: 12px;
 }
-.task-input.input {
+
+.task-input input {
     width: 300px;
 }
+
 .todo-items {
     text-align: left;
 }
