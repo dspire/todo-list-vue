@@ -18,6 +18,17 @@
 .todo-items .done {
     text-decoration: line-through;
 }
+
+.todo-items li .destroy {
+    content: '';
+    width: 12px;
+    height: 12px;
+    margin-left: 20px;
+    display: inline-block;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTIgMmM1LjUxNCAwIDEwIDQuNDg2IDEwIDEwcy00LjQ4NiAxMC0xMCAxMC0xMC00LjQ4Ni0xMC0xMCA0LjQ4Ni0xMCAxMC0xMHptMC0yYy02LjYyNyAwLTEyIDUuMzczLTEyIDEyczUuMzczIDEyIDEyIDEyIDEyLTUuMzczIDEyLTEyLTUuMzczLTEyLTEyLTEyem01IDE1LjUzOGwtMy41OTItMy41NDggMy41NDYtMy41ODctMS40MTYtMS40MDMtMy41NDUgMy41ODktMy41ODgtMy41NDMtMS40MDUgMS40MDUgMy41OTMgMy41NTItMy41NDcgMy41OTIgMS40MDUgMS40MDUgMy41NTUtMy41OTYgMy41OTEgMy41NSAxLjQwMy0xLjQxNnoiLz48L3N2Zz4=");
+    background-repeat: no-repeat;
+    background-position: center;
+}
 </style>
 
 <template>
@@ -31,7 +42,7 @@
                     <li v-for="item in todos" :key="item.id">
                         <input type="checkbox" v-model="item.completed">
                         <span v-bind:class="{ done: item.completed }">{{ item.title }}</span>
-                        <span v-on:click="removeTodo(item)" class="destroy"> X </span>
+                        <span v-on:click="removeTodo(item)" class="destroy"></span>
                     </li>
                 </ul>
             </div>

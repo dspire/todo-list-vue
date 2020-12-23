@@ -1949,6 +1949,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['itemsSource'],
   mounted: function mounted() {
@@ -6484,7 +6495,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.todo-items[data-v-cd268472] {\n    list-style-type: none;\n}\n.task-input[data-v-cd268472] {\n    margin-bottom: 12px;\n}\n.task-input input[data-v-cd268472] {\n    width: 300px;\n}\n.todo-items[data-v-cd268472] {\n    text-align: left;\n}\n.todo-items .done[data-v-cd268472] {\n    text-decoration: line-through;\n}\n", ""]);
+exports.push([module.i, "\n.todo-items[data-v-cd268472] {\n    list-style-type: none;\n}\n.task-input[data-v-cd268472] {\n    margin-bottom: 12px;\n}\n.task-input input[data-v-cd268472] {\n    width: 300px;\n}\n.todo-items[data-v-cd268472] {\n    text-align: left;\n}\n.todo-items .done[data-v-cd268472] {\n    text-decoration: line-through;\n}\n.todo-items li .destroy[data-v-cd268472] {\n    content: '';\n    width: 12px;\n    height: 12px;\n    margin-left: 20px;\n    display: inline-block;\n    background-image: url(\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTIgMmM1LjUxNCAwIDEwIDQuNDg2IDEwIDEwcy00LjQ4NiAxMC0xMCAxMC0xMC00LjQ4Ni0xMC0xMCA0LjQ4Ni0xMCAxMC0xMHptMC0yYy02LjYyNyAwLTEyIDUuMzczLTEyIDEyczUuMzczIDEyIDEyIDEyIDEyLTUuMzczIDEyLTEyLTUuMzczLTEyLTEyLTEyem01IDE1LjUzOGwtMy41OTItMy41NDggMy41NDYtMy41ODctMS40MTYtMS40MDMtMy41NDUgMy41ODktMy41ODgtMy41NDMtMS40MDUgMS40MDUgMy41OTMgMy41NTItMy41NDcgMy41OTIgMS40MDUgMS40MDUgMy41NTUtMy41OTYgMy41OTEgMy41NSAxLjQwMy0xLjQxNnoiLz48L3N2Zz4=\");\n    background-repeat: no-repeat;\n    background-position: center;\n}\n", ""]);
 
 // exports
 
@@ -38364,18 +38375,14 @@ var render = function() {
                 _vm._v(_vm._s(item.title))
               ]),
               _vm._v(" "),
-              _c(
-                "span",
-                {
-                  staticClass: "destroy",
-                  on: {
-                    click: function($event) {
-                      return _vm.removeTodo(item)
-                    }
+              _c("span", {
+                staticClass: "destroy",
+                on: {
+                  click: function($event) {
+                    return _vm.removeTodo(item)
                   }
-                },
-                [_vm._v(" X ")]
-              )
+                }
+              })
             ])
           }),
           0
